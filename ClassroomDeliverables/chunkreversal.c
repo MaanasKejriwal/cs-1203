@@ -42,11 +42,10 @@ struct Node *reverse (struct Node *head, int k)
 
 void push(struct Node** head_ref, int new_data)
 {
-	/* allocate node */
+
 	struct Node* new_node =
 			(struct Node*) malloc(sizeof(struct Node));
 
-	/* put in the data */
 	new_node->data = new_data;
 
 	/* link the old list off the new node */
