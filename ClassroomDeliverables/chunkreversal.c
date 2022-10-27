@@ -48,14 +48,14 @@ void push(struct Node** head_ref, int new_data)
 
 	new_node->data = new_data;
 
-	/* link the old list off the new node */
+
 	new_node->next = (*head_ref);	
 
-	/* move the head to point to the new node */
+
 	(*head_ref) = new_node;
 }
 
-/* Function to print linked list */
+
 void printList(struct Node *node)
 {
 	while (node != NULL)
@@ -65,13 +65,13 @@ void printList(struct Node *node)
 	}
 }	
 
-/* Driver code*/
+
 int main(void)
 {
-	/* Start with the empty list */
+
 	struct Node* head = NULL;
 
-	/* Created Linked list is 1->2->3->4->5->6->7->8->9 */
+
 	push(&head, 9);
 	push(&head, 8);
 	push(&head, 7);
