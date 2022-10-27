@@ -1,16 +1,15 @@
-// C program to reverse a linked list in groups of given size
+// C program to reverse a linked list in chunks
 #include<stdio.h>
 #include<stdlib.h>
 
-/* Link list node */
+
 struct Node
 {
 	int data;
 	struct Node* next;
 };
 
-/* Reverses the linked list in groups of size k and returns the
-pointer to the new head node. */
+/* Reverses the linked list in groups of size k */
 struct Node *reverse (struct Node *head, int k)
 {
 	if (!head)
@@ -33,18 +32,14 @@ struct Node *reverse (struct Node *head, int k)
 		count++;
 	}
 	
-	/* next is now a pointer to (k+1)th node
-	Recursively call for the list starting from current.
-	And make rest of the list as next of first node */
+
 	if (next != NULL)
 	head->next = reverse(next, k);
 
-	/* prev is new head of the input list */
+
 	return prev;
 }
 
-/* UTILITY FUNCTIONS */
-/* Function to push a node */
 void push(struct Node** head_ref, int new_data)
 {
 	/* allocate node */
