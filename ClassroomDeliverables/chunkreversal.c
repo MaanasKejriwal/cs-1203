@@ -5,89 +5,91 @@
 
 struct Node
 {
-	int data;
-	struct Node* next;
+    int info;
+    struct Node* after;
 };
 
-/* Reverses the linked list in groups of size k */
-struct Node *reverse (struct Node *head, int k)
+/* Reverses the linked list in groups of size chunk */
+struct Node *reverse (struct Node *head, int chunk)
 {
-	if (!head)
-		return NULL;
-	
-	struct Node* current = head;
-	struct Node* next = NULL;
-	struct Node* prev = NULL;
-	int count = 0;
-	
-	
-	
-	/*reverse first k nodes of the linked list */
-	while (current != NULL && count < k)
-	{
-		next = current->next;
-		current->next = prev;
-		prev = current;
-		current = next;
-		count++;
-	}
-	
+    if (!head)
+        return NULL;
 
-	if (next != NULL)
-	head->next = reverse(next, k);
+    struct Node* current = head;
+    struct Node* after = NULL;
+    struct Node* before = NULL;
+    int count = 0;
 
 
-	return prev;
+
+    /*reverse first chunk nodes of the linked list */
+    while (current != NULL && count < chunk)
+    {
+        after = current->after;
+        current->after = before;
+        before = current;
+        current = after;
+        count++;
+    }
+
+
+    if (after != NULL)
+        head->after = reverse(after, chunk);
+
+
+    return before;
 }
 
-void push(struct Node** head_ref, int new_data)
+void push(struct Node** head_ref, int new_info)
 {
 
-	struct Node* new_node =
-			(struct Node*) malloc(sizeof(struct Node));
+    struct Node* node_new =
+            (struct Node*) malloc(sizeof(struct Node));
 
-	new_node->data = new_data;
-
-
-	new_node->next = (*head_ref);	
+    node_new->info = new_info;
 
 
-	(*head_ref) = new_node;
+    node_new->after = (*head_ref);
+
+
+    (*head_ref) = node_new;
 }
 
 
 void printList(struct Node *node)
 {
-	while (node != NULL)
-	{
-		printf("%d ", node->data);
-		node = node->next;
-	}
-}	
+    while (node != NULL)
+    {
+        printf("%d ", node->info);
+        node = node->after;
+    }
+}
 
 
 int main(void)
 {
 
-	struct Node* head = NULL;
+    struct Node* head = NULL;
 
 
-	push(&head, 9);
-	push(&head, 8);
-	push(&head, 7);
-	push(&head, 6);
-	push(&head, 5);
-	push(&head, 4);
-	push(&head, 3);
-	push(&head, 2);
-	push(&head, 1);		
+    push(&head, 9);
+    push(&head, 8);
+    push(&head, 7);
+    push(&head, 6);
+    push(&head, 5);
+    push(&head, 4);
+    push(&head, 3);
+    push(&head, 2);
+    push(&head, 1);
 
-	printf("\nGiven linked list \n");
-	printList(head);
-	head = reverse(head, 3);
+    printf("\nLinked list \n");
+    printList(head);
+    head = reverse(head, 3);
 
-	printf("\nReversed Linked list \n");
-	printList(head);
+    printf("\nReversed Linked list \n");
+    printList(head);
 
-	return(0);
+    return(0);
 }
+
+//reference:https://www.geeksforgeeks.org/reverse-a-list-in-groups-of-given-size/
