@@ -18,9 +18,9 @@ int main(){                                             //for len of node
     int len = 0;                                        //initialise length as 0
     node * HEAD = NULL;                                 //first node value initialised
     printf("Enter number of nodes: \n");        //input for number of nodes
-    scanf("%d", &len);
-    HEAD = creation(len);
-    listdisplay(HEAD);
+    scanf("%d", &len);                          
+    HEAD = creation(len);                       //creates list
+    listdisplay(HEAD);                          //displays list
     return 0;
 
 
@@ -28,25 +28,25 @@ int main(){                                             //for len of node
     return 0;
 }
 
-node * creation(int len){
-    int a = 0;
-    node * head = NULL;
-    node * temp = NULL;
-    node * p = NULL;
+node * creation(int len){               //list creation function
+    int a = 0;                          //initialisation of temp variables
+    node * head = NULL;                 //Start
+    node * temp = NULL;                 //temp
+    node * p = NULL;                    
 
-    for(a=0; a< len; a++)
+    for(a=0; a< len; a++)           //checker 
     {
-        temp = (node*)malloc(sizeof(node));
-        printf("\nEnter data for node: ", a+1);
-        scanf("%d",&(temp->value));
-        temp->nextadd = NULL;
+        temp = (node*)malloc(sizeof(node));         //allocating space for temp
+        printf("\nEnter data for node: ", a+1);     //Inputs node data
+        scanf("%d",&(temp->value));                 //stores in next address 
+        temp->nextadd = NULL;                       //makes it null
 
-        if(head == NULL)
+        if(head == NULL)                            //checker
         {
-            head = temp;
+            head = temp;                            //changes head value to temp value
         }
         else{
-            p = head;
+            p = head;   
             while(p->nextadd !=NULL)
                 p = p->nextadd;
             p-> nextadd= temp;
@@ -54,14 +54,14 @@ node * creation(int len){
         }
 
     }
-    return head;
+    return head;                                   //returns head value
 }
 
-void listdisplay(node * head){
+void listdisplay(node * head){                    //display list function
     node * p = head;
 
-    while(p != NULL) {
-        printf("\t%d->", p->value);
+    while(p != NULL) {                              
+        printf("\t%d->", p->value);              //formats and display a linked list
         p = p->nextadd;
     }
     }
