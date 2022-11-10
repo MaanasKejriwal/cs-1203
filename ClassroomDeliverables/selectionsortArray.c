@@ -1,50 +1,41 @@
-// C program for implementation of selection sort
-#include <stdio.h>
- 
-void swap(int *xp, int *yp)
-{
-    int temp = *xp;
-    *xp = *yp;
-    *yp = temp;
-}
- 
-void selectionSort(int arr[], int n)
-{
-    int i, j, min_idx;
- 
-    // One by one move boundary of unsorted subarray
-    for (i = 0; i < n-1; i++)
-    {
-        // Find the minimum element in unsorted array
-        min_idx = i;
-        for (j = i+1; j < n; j++)
-          if (arr[j] < arr[min_idx])
-            min_idx = j;
- 
-        // Swap the found minimum element with the first element
-           if(min_idx != i)
-            swap(&arr[min_idx], &arr[i]);
+//selection sort of arrays
+
+//algorithm:
+//1. Entire list is traversed and smallest element is found
+//2. Swap to first index
+//3. Start from second position and do the same, finding least element and swapping
+//4. Keep repeating until reaching end of list, list is sorted
+
+#include "stdio.h"
+
+void sortArray(int arr1[], int len){        //Actual selection sort function 
+    int a, b, minposition;                  //declaration of variables
+
+    for(a = 0; a < len-1;a++){              //checker loop
+        minposition = a;                    //setting minposition
+        for(b = a+1; b < len; b++)          //checker loop
+            if(arr1[b] < arr1[minposition]) //checks if element in position b is less than current min element
+                minposition = b;            //if it is, sets current index to min index
+
+            if(minposition != a){             
+                int temp = arr1[minposition];
+                arr1[minposition] = arr1[a];
+                arr1[a] = temp;}
     }
 }
- 
-/* Function to print an array */
-void printArray(int arr[], int size)
-{
-    int i;
-    for (i=0; i < size; i++)
-        printf("%d ", arr[i]);
+
+void arrayDisplay(int arr1[], int len){         //to display the array
+    int a;                                      //initialisation
+    for(a=0; a<len; a++)                        //checker loop (counter)
+        printf("%d ", arr1[a]);         //prints array
     printf("\n");
 }
- 
-// Driver program to test above functions
-int main()
-{
-    int arr[] = {64, 25, 12, 22, 11};
-    int n = sizeof(arr)/sizeof(arr[0]);
-    selectionSort(arr, n);
-    printf("Sorted array: \n");
-    printArray(arr, n);
+
+int main(){                             
+    int arr1[]= {43, 29, 75, 38, 1, 99};        //pre-defined array as per instructions, can be any array
+    int len = sizeof(arr1)/sizeof(arr1[0]);     //sets len value
+    sortArray(arr1, len);                       //sorts array
+    printf("Sorted List: ");            
+    arrayDisplay(arr1, len);                    //prints sorted array
     return 0;
 }
-
-//reference: geeksforgeeks.com
