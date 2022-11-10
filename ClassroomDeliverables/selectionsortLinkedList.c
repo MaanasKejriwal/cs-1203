@@ -1,100 +1,94 @@
 #include <stdio.h>
+#include "cstdlib"
 
-//Represent a node of the singly linked list
-struct node{
-    int data;
-    struct node *next;
+
+struct node{                    //defines node structure
+    int value;
+    struct node *nextadd;
 };
 
-//Represent the head and tail of the singly linked list
-struct node *head, *tail = NULL;
 
-//addNode() will add a new node to the list
-void addNode(int data) {
-    //Create a new node
-    struct node *newNode = (struct node*)malloc(sizeof(struct node));
-    newNode->data = data;
-    newNode->next = NULL;
+struct node *head, *tail = NULL;    //first and last node of linked list
 
-    //Checks if the list is empty
-    if(head == NULL) {
-        //If list is empty, both head and tail will point to new node
-        head = newNode;
-        tail = newNode;
+
+void NodeCreate(int value) {       //creation of node
+    struct node *addedNode = (struct node*)malloc(sizeof(struct node));       //allocates space for next node
+    addedNode->value = value;         //saves value 'value' in node
+    addedNode->nextadd = NULL;        //sets address as NULL
+
+
+    if(head == NULL) {          //checking for empty list
+        head = addedNode;         //empty list leads to head and tail being the same
+        tail = addedNode;
     }
-    else {
-        //newNode will be added after tail such that tail's next will point to newNode
-        tail->next = newNode;
-        //newNode will become new tail of the list
-        tail = newNode;
+    else {          //sets next node as tail node
+        tail->nextadd = addedNode; //sets address
+        tail = addedNode;
     }
 }
 
-//sortList() will sort nodes of the list in ascending order
-void sortList() {
-    //Node current will point to head
-    struct node *current = head, *index = NULL;
-    int temp;
+void swapvalues(struct node *currentval, struct node * indexval, int tempstore1){        //function that swaps values within sorting
+    if(currentval->value > indexval->value) {                                       //checks if current's next value is greater that counter value
+        tempstore1 = currentval->value;                                                  //if it is, stores val in temp variable
+        currentval->value = indexval->value;                                        //stores next val from current val in counter's next val
+        indexval->value = tempstore1;                                                    //sets next val from counter val to temp1
+    }
+}
 
-    if(head == NULL) {
+
+
+void sortList() {                       //actual sort function
+    struct node *currentnode = head, *nodeindex = NULL;     //current node starts with head node as it is the first
+    int tempstore;                           //initialising temp variable
+
+    if(head == NULL) {                  //checks for empty linked list
         return;
     }
-    else {
-        while(current != NULL) {
-            //Node index will point to node next to current
-            index = current->next;
+    else {                              //if list has not empty then:
+        while(currentnode != NULL) {        //if list has not ended then:
+            nodeindex = currentnode->nextadd;   //pointer at node after current node
 
-            while(index != NULL) {
-                //If current node's data is greater than index's node data, swap the data between them
-                if(current->data > index->data) {
-                    temp = current->data;
-                    current->data = index->data;
-                    index->data = temp;
-                }
-                index = index->next;
+            while(nodeindex != NULL) {      //checks if current node is the last node = tail
+                //If current node's value is greater than index's node value, swap the value between them
+                swapvalues(currentnode, nodeindex, tempstore);           //calls swap function, swaps if discrepancy in order
+                nodeindex = nodeindex->nextadd;                     //sets index to next index and loops if required
             }
-            current = current->next;
+            currentnode = currentnode->nextadd;                     //sets current address to address of next node
         }
     }
 }
 
-//display() will display all the nodes present in the list
-void display() {
-    //Node current will point to head
-    struct node *current = head;
-    if(head == NULL) {
+
+void DisplayList() {                        //displays linked list
+    struct node *currentnode = head;    //head pointer
+    if(head == NULL) {                  //checks if list is empty
         printf("List is empty \n");
         return;
     }
-    while(current != NULL) {
-        //Prints each node by incrementing pointer
-        printf("%d ", current->data);
-        current = current->next;
+    while(currentnode != NULL) {            //keeps running until the list ends
+        printf("%d ", currentnode->value);
+        currentnode = currentnode->nextadd; //sets current node address to next node address
     }
     printf("\n");
 }
 
 int main()
 {
-    //Adds data to the list
-    addNode(9);
-    addNode(7);
-    addNode(2);
-    addNode(5);
-    addNode(4);
-
-    //Displaying original list
-    printf("Original list: \n");
-    display();
-
-    //Sorting list
-    sortList();
-
-    //Displaying sorted list
-    printf("Sorted list: \n");
-    display();
+    NodeCreate(647);            //setting values for list (could be inputted by user but instructions say given linked list)
+    NodeCreate(782);
+    NodeCreate(130);
+    NodeCreate(809);
+    NodeCreate(503);
+    
+    printf("Original list: ");
+    DisplayList();              //shows original list to compare with new one as reference
+    
+    sortList();                 //list sorted
+    
+    printf("Sorted list: ");
+    DisplayList();      //displays sorted list
 
     return 0;
 }
 
-//reference: https://www.javatpoint.com/program-to-sort-the-elements-of-the-singly-linked-list
+//This was so exhausting
