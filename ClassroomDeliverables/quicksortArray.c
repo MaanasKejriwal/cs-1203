@@ -1,82 +1,66 @@
-// Quick sort in C
+//Quicksort of array and linked list
 
-#include <stdio.h>
+//Algorithm:
+//1. Pick a random element from the list and swap it with the 0’th element (first position). We call this element the pivot element
+//2. Generate two new lists - lesser and greater
+//3. Compare every element in the list with the pivot element and push it into the corresponding list (if greater than pivot, add to greater list and so on)
+//4. We now combine the lists in the following way lesser - pivot - greater. Now, we have obtained the correct, sorted rank of the pivot element! (everything in lesser list is lower than the pivot value and everything in the greater list is larger than the pivot value)
+//5. Now we can sort the lesser list and greater list individually using the same algorithm as above. i.e. repeat steps 1-4 for the lesser list and greater list simultaneously
 
-// function to swap elements
-void swap(int *a, int *b) {
-  int t = *a;
-  *a = *b;
-  *b = t;
-}
+#include "stdio.h"
 
-// function to find the partition position
-int partition(int array[], int low, int high) {
-  
-  // select the rightmost element as pivot
-  int pivot = array[high];
-  
-  // pointer for greater element
-  int i = (low - 1);
+int splitHere(int array[], int left, int right) {       //This is to find where to partition the array
 
-  // traverse each element of the array
-  // compare them with the pivot
-  for (int j = low; j < high; j++) {
-    if (array[j] <= pivot) {
-        
-      // if element smaller than pivot is found
-      // swap it with the greater element pointed by i
-      i++;
-      
-      // swap element at i with element at j
-      swap(&array[i], &array[j]);
+    int pivotElement = array[right];        //choosing current index -1th element as the pivot
+
+    int pt = (left - 1);                    //pointer
+
+    for (int checker = left; checker < right; checker++) {      //This will lead to array traversal and comparison with pivotElement
+        if (array[checker] <= pivotElement) {
+
+            pt = pt + 1;                //if smaller element, swap
+
+            int temp = array[pt];               //swapping using a temporary variable
+            array[pt] = array[checker];
+            array[checker]= temp;
+        }
     }
-  }
 
-  // swap the pivot element with the greater element at i
-  swap(&array[i + 1], &array[high]);
-  
-  // return the partition point
-  return (i + 1);
+    int temp = array[pt+1];                     //swapping pivot with the element
+    array[pt+1] = array[right];
+    array[right] = temp;                        //swapping using temp variable
+
+    return (pt + 1);                            //partition index
 }
 
-void quickSort(int array[], int low, int high) {
-  if (low < high) {
-    
-    // find the pivot element such that
-    // elements smaller than pivot are on left of pivot
-    // elements greater than pivot are on right of pivot
-    int pi = partition(array, low, high);
-    
-    // recursive call on the left of pivot
-    quickSort(array, low, pi - 1);
-    
-    // recursive call on the right of pivot
-    quickSort(array, pi + 1, high);
-  }
+void quickSort(int array[], int left, int right) {      //quicksort main function
+    if (left < right) {
+
+        int pivotElement = splitHere(array, left, right);           //defining pivot element: left of pivot = less than pivot, right of pivot = more than pivot
+
+        quickSort(array, left, pivotElement - 1);               //to find elements less than pivot
+
+        quickSort(array, pivotElement + 1, right);              //to find elements right of pivot
+    }
 }
 
-// function to print array elements
-void printArray(int array[], int size) {
-  for (int i = 0; i < size; ++i) {
-    printf("%d  ", array[i]);
-  }
-  printf("\n");
+void ArrayDisplay(int array[], int len) {                           //displaying Array
+    for (int a = 0; a < len; ++a) {
+        printf("%d  ", array[a]);
+    }
 }
 
-// main function
 int main() {
-  int data[] = {8, 7, 2, 1, 0, 9, 6};
-  
-  int n = sizeof(data) / sizeof(data[0]);
-  
-  printf("Unsorted Array\n");
-  printArray(data, n);
-  
-  // perform quicksort on data
-  quickSort(data, 0, n - 1);
-  
-  printf("Sorted array in ascending order: \n");
-  printArray(data, n);
-}
+    int arr[] = {43, 9, 25313, 91, 11, 65, 78, 23};         //using pre-defined array as per instructions, could be any array
 
-//reference: https://www.programiz.com/dsa/quick-sort
+    int len = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original Array: ");
+    ArrayDisplay(arr, len);                                 //printing defined array as pre-sort reference
+
+    quickSort(arr, 0, len - 1);                   //quicksort using element at index 0 and index -1
+
+    printf("\n");
+    printf("Sorted Array using Quick Sort: ");
+    ArrayDisplay(arr, len);                                 //printing sorted array
+}
