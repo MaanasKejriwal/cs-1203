@@ -97,3 +97,5 @@ int main() {                    //main functiom
     printf("New traversal of array: ");
     traverse(val);
 }
+
+//Reference: https://www.programiz.com/dsa/binary-search-tree
