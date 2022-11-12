@@ -60,3 +60,6 @@ int main() {                    //main functiom
     printf("Traversing the Array: ");
     traverse(val);                              //current binary search tree
 }
+
+
+//Reference: https://www.programiz.com/dsa/binary-search-tree
